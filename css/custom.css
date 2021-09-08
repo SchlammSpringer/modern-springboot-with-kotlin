@@ -101,7 +101,21 @@ adds some fancy outline to a text -- useful for slides with a bright background
     position: absolute;
     bottom: 2.5%;
     left: 2.5%;
-    height: 150px;
-    width: 150px;
+    height: 50px;
+    width: 50px;
     z-index: 1;
+}
+
+/* For larger devices */
+@media only screen and (min-device-width: 500px) {
+    .logo { 
+        background: url(../resources/scc.png) no-repeat center;
+        background-size: contain;
+        position: absolute;
+        bottom: 2.5%;
+        left: 2.5%;
+        height: 150px;
+        width: 150px;
+        z-index: 1;
+    }
 }
