@@ -1,6 +1,10 @@
 
 # <span class="simple anim-text-flow">Modernes reaktives Spring-Boot</span> 
-<i class="fa fa-user"></i>&nbsp;Daniel Hörner, <i class="fa fa-user"></i>&nbsp;Christoph Welcz, <i class="fa fa-user"></i>&nbsp;Valentin Petras
+<i class="fa fa-user"></i>&nbsp;Daniel Hörner
+<i class="fa fa-user"></i>&nbsp;Christoph Welcz
+<i class="fa fa-user"></i>&nbsp;Valentin Petras
+
+<span class="small">https://schlammspringer.github.io/modern-springboot-with-kotlin</span>
 <--->
 
 ## <span class="words"><p class="words-line revert">motivation</p></span>
@@ -12,30 +16,140 @@
 - Erste produktive App in Kotlin
 
 <--->
-## <span class="words"><p class="words-line revert">reactive</p><p class="words-line"><span class="cleartxt anim-text-flow">coding</span></p></span>
-<-->
-
-- vielfach höherer Durchsatz als mit klassischem Spring
-- Entkopplung & Parallelisierung von Aufrufen
-
-<--->
 ## <span class="words"><p class="words-line revert">Kotlin</p><p class="words-line"><span class="cleartxt anim-text-flow">Coroutines</span></p></span>
 <-->
 
+- Superset von `async`/`await`
 - Programmieren im gewohnten imperativen Stil
 - Einbetten aller Objekte in `Mono` nicht nötig!
 - Einheitliche Programmierung über Stacks (RxJava, Project Reactor, Android) hinweg
+
+<-->
+
+```kotlin
+fun main() = runBlocking {
+  repeat(100_000) { // launch a lot of coroutines
+    launch {
+      delay(5000L)
+      print(".")
+    }
+  }
+}
+```
+
+[Example from Kotlin Guide to Coroutines](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-06.kt)
+
+<--->
+## <span class="words"><p class="words-line revert">reactive</p><p class="words-line"><span class="cleartxt anim-text-flow">coding</span></p></span>
+<-->
+
+höherer Durchsatz als Spring MVC
+
+https://medium.com/@filia.aleks/microservice-performance-battle-spring-mvc-vs-webflux-80d39fd81bf0
+
+<-->
+
+> Spring Webflux with WebClient and Apache clients wins in all cases. The most significant difference (4 times faster than blocking Servlet) when underlying service is slow (500ms).
+
+<-->
+
+Laufzeitentkopplung
+
+```kotlin
+@PutMapping(...)
+suspend fun upload(@RequestBody uploaded: Flow<Item>) {
+  // this runs in background
+  CoroutineScope(Dispatchers.IO).launch {
+    collector.collect(uploaded.toList())
+  }
+  // immediately returned
+  return "🤞"
+}
+```
+
+```java
+@PutMapping(...)
+public Mono<String> upload(@RequestBody Flux<Item> uploaded) {
+  // this runs in background
+  uploaded.collectList()
+          .publishOn(Schedulers.elastic())
+          .doOnSuccess(collector::collect)
+          .then()
+          // Monos are cold!
+          .subscribe();
+  // immediately returned
+  return Mono.just("🤞");
+}
+```
+
+<-->
+
+Parallelisierung von Aufrufen
+
+```kotlin
+= coroutineScope {
+  // pseudo-imperative style
+  val accountsFromA = async { 
+    readAccountsByApiFromDomainA(consultant, client) 
+  }
+  val accountsFromB = async { 
+    readAccountsByApiFromDomainB(consultant, client) 
+  }
+  combineAccounts(accountsFromA.await(), accountsFromB.await())
+}
+```
+
+```java
+  // Functional Reactive Programming
+  return readAccountsByApiFromDomainA(consultant, client)
+    .collectList()
+    .publishOn(Schedulers.elastic())
+    .zipWith(
+      readAccountsByApiFromDomainB(consultant, client)
+        .collectList()
+        .publishOn(Schedulers.elastic()), 
+      (accountsFromA, accountsFromB) -> 
+        combineAccounts(accountsFromA, accountsFromB)
+    );
+```
 
 <--->
 ## <span class="words"><p class="words-line revert">Data</p><p class="words-line"><span class="cleartxt anim-text-flow">Classes</span></p></span>
 
 <-->
 
-- Weniger Boilerplate
-- Immutability vermeidet Race Conditions
-- API Design mit Immutability und expliziten Null Checks für Pflichtfelder
+Weniger Boilerplate
+
+```kotlin
+data class Account(
+  val id: ObjectId? = null,
+  val consultantNumber: Long,
+  val clientNumber: Long,
+  val name: String,
+  val iban: String,
+)
+```
+
+NOTE: Jackson Extensions für Kotlin
 
 <-->
+
+Immutability vermeidet Race Conditions
+
+```kotlin
+val account = Account(...)
+account = Account(...) // does not compile!
+account.name = "Neuer Name" // does not compile!
+// var account = Account(...)
+// var changedAccount = account.copy(name = "Neuer Name")
+```
+
+NOTE:
+`copy` ist der idiomatische Weg!
+
+<-->
+
+API Design mit Immutability und expliziten Null Checks für Pflichtfelder
 
 ```kotlin
 val a: Int = null // does not compile!
@@ -64,6 +178,17 @@ b.length // does not compile!
 - Sehr mächtige API Funktionen
 
 <--->
+## <span class="words"><p class="words-line revert">kotlin</p><p class="words-line"><span class="cleartxt anim-text-flow">language</span></p></span>
+
+<-->
+- Expression functions für weniger Boilerplate
+- Domain Language durch Extension functions
+
+NOTE: 
+- Gegenüberstellung Lesbarkeit von Code
+- Vermeidung von Util-Klassen und Feature Envy
+
+<--->
 ## <span class="words"><p class="words-line revert">fazit</p></span>
 
 <-->
@@ -71,3 +196,5 @@ b.length // does not compile!
 - Reduktion des Codes von 24k LoC auf 3,8k
 - &gt; 95 % Testabdeckung und TDD
 - Wir wollen nicht mehr zurück nach Java 😉
+
+https://schlammspringer.github.io/modern-springboot-with-kotlin
