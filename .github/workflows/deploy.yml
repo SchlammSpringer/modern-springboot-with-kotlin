@@ -14,6 +14,12 @@ jobs:
         run: |
           mkdir public
           cp index.html public
+          cp content.md public
+          cp -rv lib  public
+          cp -rv js  public
+          cp -rv plugin  public
+          cp -rv css  public
+          cp -rv resources  public
       -
         name: Deploy to GitHub Pages
         if: success()
