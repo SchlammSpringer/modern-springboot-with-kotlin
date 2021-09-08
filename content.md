@@ -198,3 +198,5 @@ NOTE:
 - Wir wollen nicht mehr zurück nach Java 😉
 
 https://schlammspringer.github.io/modern-springboot-with-kotlin
+
+NOTE: Reduktion gegenüber eines Prototyps in Java
