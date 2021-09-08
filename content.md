@@ -130,8 +130,6 @@ data class Account(
 )
 ```
 
-NOTE: Jackson Extensions für Kotlin
-
 <-->
 
 Immutability vermeidet Race Conditions
@@ -149,7 +147,7 @@ NOTE:
 
 <-->
 
-API Design mit Immutability und expliziten Null Checks für Pflichtfelder
+API Design mit Immutability und expliziten Null Checks für Pflichtfelder (bei REST Calls/Jackson BAD REQUEST)
 
 ```kotlin
 val a: Int = null // does not compile!
