@@ -215,7 +215,7 @@ fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
   .sumOf { it.total }
 ```
 ```java
-public static BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
+public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
     return dailyBalances
         .stream()
         .collect(groupingBy(DailyBalance::getIban))
@@ -232,7 +232,7 @@ public static BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances)
 <-->
 Java `for each` Kaskade 
 ```java
-public static BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
+public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
   var acc = BigDecimal.ZERO;
   var balancesGroupedByIban = new HashMap<String, List<DailyBalance>>();
   for (var balance : dailyBalances) {
