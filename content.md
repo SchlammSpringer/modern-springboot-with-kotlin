@@ -322,7 +322,7 @@ BDD Strukturierung der Tests
 
 Property Based Testing
 
-```
+```log
 Property failed after 671 attempts
 Arg 0: (1980-11-29, 1972-10-30..2007-09-27)
 Arg 1: Step(width=1, unit=Months)
