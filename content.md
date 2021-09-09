@@ -153,11 +153,11 @@ Immutability vermeidet Race Conditions
 ```kotlin
 val account = Account(...)
 account = Account(...) // does not compile!
-account.name = "Neuer Name" // does not compile!
+account.name = "New Name" // does not compile!
 // mutable property 
 var account = Account(...)
 // clone property with only a few new informations
-val changedAccount = account.copy(name = "Neuer Name")
+val changedAccount = account.copy(name = "New Name")
 ```
 
 NOTE:
@@ -320,7 +320,7 @@ BDD Strukturierung der Tests
 
 <-->
 
-Property Based Testing
+höhere Konfidenz durch Property Based Testing
 
 ```log
 Property failed after 671 attempts
@@ -346,8 +346,6 @@ The following elements failed:
 
 <-->
 
-Property Based Testing
-
 ```kotlin
 it("supports a pre-emptive end") {
   val endBeforeRangeEnd = arbDateAndRange.filter { (end, range) -> 
@@ -363,7 +361,7 @@ it("supports a pre-emptive end") {
 
 <-->
 
-Kotest arbitrary
+Kotest Generatoren für Property Tests
 
 ```kotlin
   it("functions are isomorphic") {
@@ -392,8 +390,11 @@ https://schlammspringer.github.io/modern-springboot-with-kotlin
 NOTE: Reduktion gegenüber eines Prototyps in Java
 
 <--->
+- <cite>[Spring Boot Kotlin](https://spring.io/guides/tutorials/spring-boot-kotlin/)</cite>
 - <cite>[Höherer Durchsatz als Spring](https://medium.com/@filia.aleks/microservice-performance-battle-spring-mvc-vs-webflux-80d39fd81bf0)</cite>
 - <cite>[Example from Kotlin Guide to Coroutines](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-06.kt)</cite>
 - <cite>[Flux 3 - Hopping Threads and Schedulers](https://spring.io/blog/2019/12/13/flight-of-the-flux-3-hopping-threads-and-schedulers)</cite>
 - <cite>[Spring, Coroutines and Kotlin Flow](https://spring.io/blog/2019/04/12/going-reactive-with-spring-coroutines-and-kotlin-flow)</cite>
 - <cite>[Kotest Generators](https://kotest.io/docs/proptest/property-test-generators.html#arbitrary)</cite>
+- <cite>[Kotest](https://kotest.io/)</cite>
+- <cite>[MockK - Mocking Library für Kotlin inkl. Coroutinen](https://mockk.io/)</cite>
