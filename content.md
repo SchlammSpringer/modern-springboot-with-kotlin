@@ -94,6 +94,7 @@ Parallelisierung von Aufrufen
 
 <--->
 ## <span class="words"><p class="words-line revert">Kotlin</p><p class="words-line"><span class="cleartxt anim-text-flow">Coroutines</span></p></span>
+
 <-->
 
 - Superset von `async`/`await`
@@ -128,6 +129,7 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 ```
 
 <--->
+
 ## <span class="words"><p class="words-line revert">Data</p><p class="words-line"><span class="cleartxt anim-text-flow">Classes</span></p></span>
 
 <-->
@@ -175,6 +177,7 @@ b.length // does not compile!
 ```
 
 <--->
+
 ## <span class="words"><p class="words-line revert">Kotest</p><p class="words-line"><span class="cleartxt anim-text-flow">testing</span></p></span>
 
 <-->
@@ -184,9 +187,11 @@ b.length // does not compile!
 - Testen von Coroutines
 
 <--->
+
 ## <span class="words"><p class="words-line revert">list</p><p class="words-line"><span class="cleartxt anim-text-flow">functions</span></p></span>
 
 <-->
+
 Sehr mächtige API Funktionen statt Java `for each` Kaskade 
 ```kotlin
 // Relative Veränderung des Kontostands
@@ -199,18 +204,21 @@ fun List<BigDecimal>.convertDeltasToAbsolutes(totalStart: BigDecimal) =
   runningReduce { previous, current -> previous + current }.map { it + totalStart }
 ```
 <-->
+
 Berechnungen innerhalb statt Delegation an `Stream.collect`
 ```kotlin
-// Ermittlung Kontostand aller Konten
+// Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
 fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
-  .map { (_,value) -> value.maxByOrNull { it.day } }
-  .sumOf { it!!.total }
+  .map { (_,value) -> value.maxBy { it.day } }
+  .sumOf { it.total }
 ```
 
 <--->
+
 ## <span class="words"><p class="words-line revert">kotlin</p><p class="words-line"><span class="cleartxt anim-text-flow">language</span></p></span>
 
 <-->
+
 - Expression functions für weniger Boilerplate
 - Domain Language durch Extension functions
 
@@ -219,6 +227,7 @@ NOTE:
 - Vermeidung von Util-Klassen und Feature Envy
 
 <--->
+
 ## <span class="words"><p class="words-line revert">fazit</p></span>
 
 <-->
