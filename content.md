@@ -168,15 +168,16 @@ NOTE:
 
 <-->
 
-API Design mit Immutability und expliziten Null Checks für Pflichtfelder (bei REST Calls/Jackson BAD REQUEST)
+- API Design mit Immutability und expliziten Null Checks für Pflichtfelder 
+- bei REST Calls/Jackson BAD REQUEST
 
 ```kotlin
 val a: Int = null // does not compile!
-// val a: Int? = null
+val a: Int? = null
 
 val b: String? = ...
 b.length // does not compile!
-// b?.length
+b?.length
 ```
 
 <--->
@@ -249,16 +250,18 @@ Sehr mächtige API Funktionen statt Java `for each` Kaskade
 ```kotlin
 // Relative Veränderung des Kontostands mit Startsaldo
 fun List<BigDecimal>.convertAbsolutesToDeltas(totalStart: BigDecimal) =
-  (listOf(totalStart) + this) // ergänzt Salden um Startsaldo
-  .zipWithNext { // bildet WertPaare
-    current, next -> next - current // berechnet Delta aus vorherigen und aktuellen Wert 
-  } 
-
+  // ergänzt Salden um Startsaldo
+  (listOf(totalStart) + this) 
+    // bildet WertPaare
+    // berechnet Delta aus vorherigen und aktuellen Wert 
+    .zipWithNext { current, next -> next - current } 
 
 // Absolute Veränderung des Kontostands mit Startsaldo
 fun List<BigDecimal>.convertDeltasToAbsolutes(totalStart: BigDecimal) =
-  runningReduce { previous, current -> current + previous } // addiert den vorherigen Wert auf den aktuellen auf
-  .map { it + totalStart } // Absoluter Anfangswert aufaddieren
+  // addiert den vorherigen Wert auf den aktuellen auf
+  runningReduce { previous, current -> current + previous } 
+  // absoluten Anfangswert aufaddieren
+  .map { it + totalStart } 
 ```
 
 <--->
@@ -374,14 +377,14 @@ it("supports a pre-emptive end") {
 Kotest Generatoren für Property Tests
 
 ```kotlin
-  it("functions are isomorphic") {
-    checkAll(Arb.bigDecimal(), Arb.list(Arb.bigDecimal())) { total, list ->
-      list.convertDeltasToAbsolutes(total)
-          .convertAbsolutesToDeltas(total) shouldEqualIgnoringTrailingZeros list
-      list.convertAbsolutesToDeltas(total)
-          .convertDeltasToAbsolutes(total) shouldEqualIgnoringTrailingZeros list
-    }
+it("functions are isomorphic") {
+  checkAll(Arb.bigDecimal(), Arb.list(Arb.bigDecimal())) { total, list ->
+    list.convertDeltasToAbsolutes(total).convertAbsolutesToDeltas(total) 
+        shouldEqualIgnoringTrailingZeros list
+    list.convertAbsolutesToDeltas(total).convertDeltasToAbsolutes(total) 
+        shouldEqualIgnoringTrailingZeros list
   }
+}
 ```
 
 <--->
@@ -393,11 +396,10 @@ Kotest Generatoren für Property Tests
 
 Wir wollen nicht mehr zurück nach Java 😉
 
+<--->
+
 https://schlammspringer.github.io/modern-springboot-with-kotlin
 
-NOTE: Reduktion gegenüber eines Prototyps in Java
-
-<--->
 - <cite>[Spring Boot Kotlin](https://spring.io/guides/tutorials/spring-boot-kotlin/)</cite>
 - <cite>[Höherer Durchsatz als Spring](https://medium.com/@filia.aleks/microservice-performance-battle-spring-mvc-vs-webflux-80d39fd81bf0)</cite>
 - <cite>[Example from Kotlin Guide to Coroutines](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-06.kt)</cite>
