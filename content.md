@@ -258,12 +258,41 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 
 <-->
 
-- Expression functions für weniger Boilerplate
-- Domain Language durch Extension functions
+Expression functions für weniger Boilerplate
 
-NOTE: 
-- Gegenüberstellung Lesbarkeit von Code
-- Vermeidung von Util-Klassen und Feature Envy
+```kotlin
+// block body
+fun helloWorld():String {
+  return "Hello World"
+}
+
+// expression with type inference
+fun helloWorld() = "Hello World"
+
+```
+Note:
+- weniger refactoring pain durch type inference bei Änderung von Rückgabewerten
+
+<-->
+
+Domain Language durch Extension functions
+
+```kotlin
+private fun BigDecimal.toEuroCent() = multiply(BigDecimal(100)).toLong()
+
+val total = (value1 - value2).toEuroCent()
+```
+
+```java
+private long toEuroCent(BigDecimal value) {
+  return value.multiply(new BigDecimal(100)).longValue();
+}
+
+var total = toEuroCent(value1.subtract(value2));
+```
+
+Note:
+- Kotlin Listen Funktionen sind alles extension functions
 
 <--->
 
