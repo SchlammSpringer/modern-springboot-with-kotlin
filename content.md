@@ -224,7 +224,7 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 
 <-->
 
-Java `for each` Kaskade, statt Kotlin oder Java streaming
+Java `for each` Kaskade
 ```java
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
 public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
