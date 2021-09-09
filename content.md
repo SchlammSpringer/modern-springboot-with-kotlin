@@ -350,7 +350,9 @@ Property Based Testing
 
 ```kotlin
 it("supports a pre-emptive end") {
-  val endBeforeRangeEnd = arbDateAndRange.filter { (end, range) -> range.contains(end) && end < range.endInclusive }
+  val endBeforeRangeEnd = arbDateAndRange.filter { (end, range) -> 
+    range.contains(end) && end < range.endInclusive 
+  }
   checkAll(endBeforeRangeEnd, arbStep) { (end, range), step ->
     range.temporalSequence(step, range.startInclusive, end).forAll {
       it shouldBeLessThanOrEqualTo end
@@ -366,8 +368,10 @@ Kotest arbitrary
 ```kotlin
   it("functions are isomorphic") {
     checkAll(Arb.bigDecimal(), Arb.list(Arb.bigDecimal())) { total, list ->
-      list.convertDeltasToAbsolutes(total).convertAbsolutesToDeltas(total) shouldEqualIgnoringTrailingZeros list
-      list.convertAbsolutesToDeltas(total).convertDeltasToAbsolutes(total) shouldEqualIgnoringTrailingZeros list
+      list.convertDeltasToAbsolutes(total)
+          .convertAbsolutesToDeltas(total) shouldEqualIgnoringTrailingZeros list
+      list.convertAbsolutesToDeltas(total)
+          .convertDeltasToAbsolutes(total) shouldEqualIgnoringTrailingZeros list
     }
   }
 ```
