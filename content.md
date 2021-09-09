@@ -25,7 +25,7 @@
 
 <-->
 
-> Spring Webflux with WebClient and Apache clients wins in all cases. The most significant difference (4 times faster than blocking Servlet) when underlying service is slow (500ms).
+> "... Spring Webflux with WebClient and Apache clients wins in all cases. The most significant difference (4 times faster than blocking Servlet) when underlying service is slow (500ms)."
 
 Note:
 - economic & ecologic benefits
