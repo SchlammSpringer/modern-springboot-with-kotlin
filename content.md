@@ -16,33 +16,12 @@
 - Erste produktive App in Kotlin
 
 <--->
-## <span class="words"><p class="words-line revert">Kotlin</p><p class="words-line"><span class="cleartxt anim-text-flow">Coroutines</span></p></span>
-<-->
 
-- Superset von `async`/`await`
-- Programmieren im gewohnten imperativen Stil
-- Einbetten aller Objekte in `Mono` nicht nötig!
-- Einheitliche Programmierung über Stacks (RxJava, Project Reactor, Android) hinweg
-
-<-->
-
-```kotlin
-fun main() = runBlocking {
-  repeat(100_000) { // launch a lot of coroutines
-    launch {
-      delay(5000L)
-      print(".")
-    }
-  }
-}
-```
-
-<--->
 ## <span class="words"><p class="words-line revert">reactive</p><p class="words-line"><span class="cleartxt anim-text-flow">coding</span></p></span>
+
 <-->
 
-### <span class="words"><p class="words-line revert">höherer Durchsatz als Spring MVC</p></span>
-
+### <span class="words"><p class="words-line revert">better</p><p class="words-line"><span class="cleartxt anim-text-flow">performance</span></p></span>
 
 <-->
 
@@ -111,6 +90,28 @@ Parallelisierung von Aufrufen
       (accountsFromA, accountsFromB) -> 
         combineAccounts(accountsFromA, accountsFromB)
     );
+```
+
+<--->
+## <span class="words"><p class="words-line revert">Kotlin</p><p class="words-line"><span class="cleartxt anim-text-flow">Coroutines</span></p></span>
+<-->
+
+- Superset von `async`/`await`
+- Programmieren im gewohnten imperativen Stil
+- Einbetten aller Objekte in `Mono` nicht nötig!
+- Einheitliche Programmierung über Stacks (RxJava, Project Reactor, Android) hinweg
+
+<-->
+
+```kotlin
+fun main() = runBlocking {
+  repeat(100_000) { // launch a lot of coroutines
+    launch {
+      delay(5000L)
+      print(".")
+    }
+  }
+}
 ```
 
 <--->
