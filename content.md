@@ -185,23 +185,6 @@ b.length // does not compile!
 
 <-->
 
-Sehr mächtige API Funktionen statt Java `for each` Kaskade 
-```kotlin
-// Relative Veränderung des Kontostands mit Startsaldo
-fun List<BigDecimal>.convertAbsolutesToDeltas(totalStart: BigDecimal) =
-  (listOf(totalStart) + this) // ergänzt Salden um Startsaldo
-  .zipWithNext { // bildet WertPaare
-    current, next -> next - current // berechnet Delta aus vorherigen und aktuellen Wert 
-  } 
-
-
-// Absolute Veränderung des Kontostands mit Startsaldo
-fun List<BigDecimal>.convertDeltasToAbsolutes(totalStart: BigDecimal) =
-  runningReduce { previous, current -> current + previous } // addiert den vorherigen Wert auf den aktuellen auf
-  .map { it + totalStart } // Absoluter Anfangswert aufaddieren
-```
-<-->
-
 Berechnungen innerhalb statt Delegation an `Stream.collect`
 ```kotlin
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
@@ -209,6 +192,11 @@ fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
   .map { (_,value) -> value.maxBy { it.day } }
   .sumOf { it.total }
 ```
+
+<-->
+
+Java Streaming API
+
 ```java
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
 public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
@@ -255,6 +243,24 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 }
 ```
 
+<-->
+
+Sehr mächtige API Funktionen statt Java `for each` Kaskade
+```kotlin
+// Relative Veränderung des Kontostands mit Startsaldo
+fun List<BigDecimal>.convertAbsolutesToDeltas(totalStart: BigDecimal) =
+  (listOf(totalStart) + this) // ergänzt Salden um Startsaldo
+  .zipWithNext { // bildet WertPaare
+    current, next -> next - current // berechnet Delta aus vorherigen und aktuellen Wert 
+  } 
+
+
+// Absolute Veränderung des Kontostands mit Startsaldo
+fun List<BigDecimal>.convertDeltasToAbsolutes(totalStart: BigDecimal) =
+  runningReduce { previous, current -> current + previous } // addiert den vorherigen Wert auf den aktuellen auf
+  .map { it + totalStart } // Absoluter Anfangswert aufaddieren
+```
+
 <--->
 
 ## <span class="words"><p class="words-line revert">kotlin</p><p class="words-line"><span class="cleartxt anim-text-flow">language</span></p></span>
@@ -265,7 +271,7 @@ Expression functions für weniger Boilerplate
 
 ```kotlin
 // block body
-fun helloWorld():String {
+fun helloWorld(): String {
   return "Hello World"
 }
 
@@ -281,7 +287,8 @@ Note:
 Domain Language durch Extension functions
 
 ```kotlin
-private fun BigDecimal.toEuroCent() = multiply(BigDecimal(100)).toLong()
+private fun BigDecimal.toEuroCent() = 
+  multiply(BigDecimal(100)).toLong()
 
 val total = (value1 - value2).toEuroCent()
 ```
@@ -384,9 +391,7 @@ Kotest Generatoren für Property Tests
 
 <-->
 
-- Reduktion des Codes von 24k LoC auf 3,8k
-- &gt; 95 % Testabdeckung und TDD
-- Wir wollen nicht mehr zurück nach Java 😉
+Wir wollen nicht mehr zurück nach Java 😉
 
 https://schlammspringer.github.io/modern-springboot-with-kotlin
 
