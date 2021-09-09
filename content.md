@@ -215,6 +215,7 @@ fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
   .sumOf { it.total }
 ```
 ```java
+// Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
 public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
     return dailyBalances
         .stream()
@@ -230,8 +231,10 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 ```
 
 <-->
+
 Java `for each` Kaskade 
 ```java
+// Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
 public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
   var acc = BigDecimal.ZERO;
   var balancesGroupedByIban = new HashMap<String, List<DailyBalance>>();
