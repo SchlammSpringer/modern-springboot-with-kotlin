@@ -178,67 +178,6 @@ b.length // does not compile!
 
 <--->
 
-## <span class="words"><p class="words-line revert">Kotest</p><p class="words-line"><span class="cleartxt anim-text-flow">testing</span></p></span>
-
-<-->
-
-- Property Based Testing
-- BDD Strukturierung der Tests
-- Testen von Coroutines
-
-<-->
-
-```
-Property failed after 671 attempts
-Arg 0: (1980-11-29, 1972-10-30..2007-09-27)
-Arg 1: Step(width=1, unit=Months)
-Repeat this test by using seed 6737234594828379639
-Caused by: 97 elements passed but expected 98
-The following elements passed:
-1972-10-30
-1972-11-30
-1972-12-30
-1973-01-30
-1973-02-28
-1973-03-30
-1973-04-30
-1973-05-30
-1973-06-30
-1973-07-30
-... and 87 more passed elements
-The following elements failed:
-1980-11-30 => 1980-11-30 should be <= 1980-11-29
-```
-
-<-->
-
-Property Based Testing
-
-```kotlin
-it("supports a pre-emptive end") {
-  val endBeforeRangeEnd = arbDateAndRange.filter { (end, range) -> range.contains(end) && end < range.endInclusive }
-  checkAll(endBeforeRangeEnd, arbStep) { (end, range), step ->
-    range.temporalSequence(step, range.startInclusive, end).forAll {
-      it shouldBeLessThanOrEqualTo end
-    }
-  }
-}
-```
-
-<-->
-
-Kotest arbitrary
-```kotest
-  it("functions are isomorphic") {
-    checkAll(Arb.bigDecimal(), Arb.list(Arb.bigDecimal())) { total, list ->
-      list.convertDeltasToAbsolutes(total).convertAbsolutesToDeltas(total) shouldEqualIgnoringTrailingZeros list
-      list.convertAbsolutesToDeltas(total).convertDeltasToAbsolutes(total) shouldEqualIgnoringTrailingZeros list
-    }
-  }
-```
-
-<--->
-
 ## <span class="words"><p class="words-line revert">list</p><p class="words-line"><span class="cleartxt anim-text-flow">functions</span></p></span>
 
 <-->
@@ -327,6 +266,68 @@ NOTE:
 - Vermeidung von Util-Klassen und Feature Envy
 
 <--->
+
+## <span class="words"><p class="words-line revert">Kotest</p><p class="words-line"><span class="cleartxt anim-text-flow">testing</span></p></span>
+
+<-->
+
+- Property Based Testing
+- BDD Strukturierung der Tests
+- Testen von Coroutines
+
+<-->
+
+```
+Property failed after 671 attempts
+Arg 0: (1980-11-29, 1972-10-30..2007-09-27)
+Arg 1: Step(width=1, unit=Months)
+Repeat this test by using seed 6737234594828379639
+Caused by: 97 elements passed but expected 98
+The following elements passed:
+1972-10-30
+1972-11-30
+1972-12-30
+1973-01-30
+1973-02-28
+1973-03-30
+1973-04-30
+1973-05-30
+1973-06-30
+1973-07-30
+... and 87 more passed elements
+The following elements failed:
+1980-11-30 => 1980-11-30 should be <= 1980-11-29
+```
+
+<-->
+
+Property Based Testing
+
+```kotlin
+it("supports a pre-emptive end") {
+  val endBeforeRangeEnd = arbDateAndRange.filter { (end, range) -> range.contains(end) && end < range.endInclusive }
+  checkAll(endBeforeRangeEnd, arbStep) { (end, range), step ->
+    range.temporalSequence(step, range.startInclusive, end).forAll {
+      it shouldBeLessThanOrEqualTo end
+    }
+  }
+}
+```
+
+<-->
+
+Kotest arbitrary
+```kotest
+  it("functions are isomorphic") {
+    checkAll(Arb.bigDecimal(), Arb.list(Arb.bigDecimal())) { total, list ->
+      list.convertDeltasToAbsolutes(total).convertAbsolutesToDeltas(total) shouldEqualIgnoringTrailingZeros list
+      list.convertAbsolutesToDeltas(total).convertDeltasToAbsolutes(total) shouldEqualIgnoringTrailingZeros list
+    }
+  }
+```
+
+<--->
+
 
 ## <span class="words"><p class="words-line revert">fazit</p></span>
 
