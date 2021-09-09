@@ -271,11 +271,27 @@ NOTE:
 
 <-->
 
-- Property Based Testing
-- BDD Strukturierung der Tests
-- Testen von Coroutines
+BDD Strukturierung der Tests
+
+```kotlin
+  describe("API for Payment Plan") {
+    describe("has POST") {
+      it("returns new plan") {...}
+
+      it("rejects new plan with wrong identifier") {...}
+    }
+
+    describe("has GET") {...}
+
+    describe("has PUT {id}") {...}
+
+    describe("has DELETE {id}") {...}
+  }
+```
 
 <-->
+
+Property Based Testing
 
 ```
 Property failed after 671 attempts
