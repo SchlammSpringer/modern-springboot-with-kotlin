@@ -187,9 +187,25 @@ b.length // does not compile!
 ## <span class="words"><p class="words-line revert">list</p><p class="words-line"><span class="cleartxt anim-text-flow">functions</span></p></span>
 
 <-->
+Sehr mächtige API Funktionen statt Java `for each` Kaskade 
+```kotlin
+// Relative Veränderung des Kontostands
+fun List<BigDecimal>.convertAbsolutesToDeltas(totalStart: BigDecimal) =
+  (listOf(totalStart) + this).zipWithNext { previous, current -> current - previous }
 
-- Berechnungen innerhalb statt Delegation an `Stream.collect`
-- Sehr mächtige API Funktionen
+
+// Absolute Veränderung des Kontostands
+fun List<BigDecimal>.convertDeltasToAbsolutes(totalStart: BigDecimal) =
+  runningReduce { previous, current -> previous + current }.map { it + totalStart }
+```
+<-->
+Berechnungen innerhalb statt Delegation an `Stream.collect`
+```kotlin
+// Ermittlung Kontostand aller Konten
+fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
+  .map { (_,value) -> value.maxByOrNull { it.day } }
+  .sumOf { it!!.total }
+```
 
 <--->
 ## <span class="words"><p class="words-line revert">kotlin</p><p class="words-line"><span class="cleartxt anim-text-flow">language</span></p></span>
