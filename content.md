@@ -37,19 +37,19 @@ fun main() = runBlocking {
 }
 ```
 
-[Example from Kotlin Guide to Coroutines](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-06.kt)
-
 <--->
 ## <span class="words"><p class="words-line revert">reactive</p><p class="words-line"><span class="cleartxt anim-text-flow">coding</span></p></span>
 <-->
 
-höherer Durchsatz als Spring MVC
+### <span class="words"><p class="words-line revert">höherer Durchsatz als Spring MVC</p></span>
 
-https://medium.com/@filia.aleks/microservice-performance-battle-spring-mvc-vs-webflux-80d39fd81bf0
 
 <-->
 
 > Spring Webflux with WebClient and Apache clients wins in all cases. The most significant difference (4 times faster than blocking Servlet) when underlying service is slow (500ms).
+
+Note:
+- economic & ecologic benefits
 
 <-->
 
@@ -202,5 +202,7 @@ https://schlammspringer.github.io/modern-springboot-with-kotlin
 NOTE: Reduktion gegenüber eines Prototyps in Java
 
 <--->
-<cite>[Flux 3 - Hopping Threads and Schedulers](https://spring.io/blog/2019/12/13/flight-of-the-flux-3-hopping-threads-and-schedulers)</cite>
-<cite>[Spring, Coroutines and Kotlin Flow](https://spring.io/blog/2019/04/12/going-reactive-with-spring-coroutines-and-kotlin-flow)</cite>
+- <cite>[Höherer Durchsatz als Spring](https://medium.com/@filia.aleks/microservice-performance-battle-spring-mvc-vs-webflux-80d39fd81bf0)</cite>
+- <cite>[Example from Kotlin Guide to Coroutines](https://github.com/Kotlin/kotlinx.coroutines/blob/master/kotlinx-coroutines-core/jvm/test/guide/example-basic-06.kt)</cite>
+- <cite>[Flux 3 - Hopping Threads and Schedulers](https://spring.io/blog/2019/12/13/flight-of-the-flux-3-hopping-threads-and-schedulers)</cite>
+- <cite>[Spring, Coroutines and Kotlin Flow](https://spring.io/blog/2019/04/12/going-reactive-with-spring-coroutines-and-kotlin-flow)</cite>
