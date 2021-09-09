@@ -317,7 +317,8 @@ it("supports a pre-emptive end") {
 <-->
 
 Kotest arbitrary
-```kotest
+
+```kotlin
   it("functions are isomorphic") {
     checkAll(Arb.bigDecimal(), Arb.list(Arb.bigDecimal())) { total, list ->
       list.convertDeltasToAbsolutes(total).convertAbsolutesToDeltas(total) shouldEqualIgnoringTrailingZeros list
