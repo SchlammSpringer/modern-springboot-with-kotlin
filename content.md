@@ -212,6 +212,46 @@ fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
   .map { (_,value) -> value.maxBy { it.day } }
   .sumOf { it.total }
 ```
+```java
+public static BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
+    return dailyBalances
+        .stream()
+        .collect(groupingBy(DailyBalance::getIban))
+        .values()
+        .stream()
+        .flatMap(balances -> balances.stream()
+                                     .max(comparing(DailyBalance::getDay))
+                                     .stream())
+        .map(DailyBalance::getTotal)
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
+```
+
+<-->
+Java `for each` Kaskade 
+```java
+public static BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
+    var acc = BigDecimal.ZERO;
+    var balancesGroupedByIban = new HashMap<String, List<DailyBalance>>();
+    for (var balance : dailyBalances) {
+      balancesGroupedByIban
+          .computeIfAbsent(balance.getIban(), k -> new ArrayList<>())
+          .add(balance);
+    }
+    for (var balances : balancesGroupedByIban.values()) {
+      DailyBalance latestDailyBalance = null;
+      var comparator = comparing(DailyBalance::getDay);
+      for (var balance : balances) {
+        if (comparator.compare(balance, latestDailyBalance) > 0) {
+          latestDailyBalance = balance;
+        }
+      }
+      var total = Objects.requireNonNull(latestDailyBalance).getTotal();
+      acc = acc.add(total);
+    }
+    return acc;
+  }
+```
 
 <--->
 
