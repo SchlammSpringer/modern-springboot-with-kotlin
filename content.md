@@ -194,16 +194,18 @@ b.length // does not compile!
 
 Sehr mächtige API Funktionen statt Java `for each` Kaskade 
 ```kotlin
-// Relative Veränderung des Kontostands
+// Relative Veränderung des Kontostands mit Startsaldo
 fun List<BigDecimal>.convertAbsolutesToDeltas(totalStart: BigDecimal) =
-  (listOf(totalStart) + this)
-  .zipWithNext { previous, current -> current - previous }
+  (listOf(totalStart) + this) // ergänzt Salden um Startsaldo
+  .zipWithNext { // bildet WertPaare
+    current, next -> next - current // berechnet Delta aus vorherigen und aktuellen Wert 
+  } 
 
 
-// Absolute Veränderung des Kontostands
+// Absolute Veränderung des Kontostands mit Startsaldo
 fun List<BigDecimal>.convertDeltasToAbsolutes(totalStart: BigDecimal) =
-  runningReduce { previous, current -> previous + current }
-  .map { it + totalStart }
+  runningReduce { previous, current -> current + previous } // addiert den vorherigen Wert auf den aktuellen auf
+  .map { it + totalStart } // Absoluter Anfangswert aufaddieren
 ```
 <-->
 
@@ -232,7 +234,7 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 
 <-->
 
-Java `for each` Kaskade 
+Java `for each` Kaskade, statt Kotlin oder Java streaming
 ```java
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
 public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
