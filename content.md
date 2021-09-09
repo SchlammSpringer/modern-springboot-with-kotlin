@@ -196,12 +196,14 @@ Sehr mächtige API Funktionen statt Java `for each` Kaskade
 ```kotlin
 // Relative Veränderung des Kontostands
 fun List<BigDecimal>.convertAbsolutesToDeltas(totalStart: BigDecimal) =
-  (listOf(totalStart) + this).zipWithNext { previous, current -> current - previous }
+  (listOf(totalStart) + this)
+  .zipWithNext { previous, current -> current - previous }
 
 
 // Absolute Veränderung des Kontostands
 fun List<BigDecimal>.convertDeltasToAbsolutes(totalStart: BigDecimal) =
-  runningReduce { previous, current -> previous + current }.map { it + totalStart }
+  runningReduce { previous, current -> previous + current }
+  .map { it + totalStart }
 ```
 <-->
 
