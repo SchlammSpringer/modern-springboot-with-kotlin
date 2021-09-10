@@ -336,19 +336,19 @@ Note:
 BDD Strukturierung der Tests
 
 ```kotlin
-  describe("API for Payment Plan") {
-    describe("has POST") {
-      it("returns new plan") {...}
+describe("API for Payment Plan") {
+  describe("has POST") {
+    it("returns new plan") {...}
 
-      it("rejects new plan with wrong identifier") {...}
-    }
-
-    describe("has GET") {...}
-
-    describe("has PUT {id}") {...}
-
-    describe("has DELETE {id}") {...}
+    it("rejects new plan with wrong identifier") {...}
   }
+
+  describe("has GET") {...}
+
+  describe("has PUT {id}") {...}
+
+  describe("has DELETE {id}") {...}
+}
 ```
 
 <-->
