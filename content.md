@@ -241,6 +241,8 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 }
 ```
 
+<-->
+
 Java Streaming API
 
 ```java
