@@ -168,16 +168,15 @@ NOTE:
 
 <-->
 
-- API Design mit Immutability und expliziten Null Checks für Pflichtfelder 
-- bei REST Calls/Jackson BAD REQUEST
+API Design mit Immutability und expliziten Null Checks für Pflichtfelder 
 
 ```kotlin
-val a: Int = null // does not compile!
-val a: Int? = null
+// does not compile!
+val account = Account(consultantNumber = 123, clientNumber = 456, name = null, iban = "DE12345678")
 
-val b: String? = ...
-b.length // does not compile!
-b?.length
+// id is nullable, does not compile!
+account.id.toString()
+account.id?.toString() ?: "Not available"
 ```
 
 <--->
