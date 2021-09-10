@@ -1,5 +1,5 @@
 
-# <span class="simple anim-text-flow">Modernes reaktives Spring-Boot</span> 
+# <span class="simple anim-text-flow">Modernes reaktives Spring Boot</span> 
 <i class="fa fa-user"></i>&nbsp;Daniel Hörner
 <i class="fa fa-user"></i>&nbsp;Christoph Welcz
 <i class="fa fa-user"></i>&nbsp;Valentin Petras
