@@ -186,6 +186,21 @@ b?.length
 
 <-->
 
+```java
+var dailyBalances = List.of(
+  new DailyBalance("DE12345678", LocalDate.parse("2021-05-03"), new BigDecimal("1234.12")),
+  new DailyBalance("DE12345678", LocalDate.parse("2021-05-02"), new BigDecimal("500.12")),
+  
+  new DailyBalance("DE98765432", LocalDate.parse("2021-05-05"), new BigDecimal("600.88")),
+  new DailyBalance("DE98765432", LocalDate.parse("2021-05-01"), new BigDecimal("145.23"))
+);
+
+var sumLatestTotals = sumLatestTotalsByIban(dailyBalances);
+// -> 1835.00
+```
+
+<-->
+
 Java `for each` Kaskade
 ```java
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
