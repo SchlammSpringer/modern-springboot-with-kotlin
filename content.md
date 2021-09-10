@@ -186,36 +186,6 @@ b?.length
 
 <-->
 
-Berechnungen innerhalb statt Delegation an `Stream.collect`
-```kotlin
-// Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
-fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
-  .map { (_,value) -> value.maxBy { it.day } }
-  .sumOf { it.total }
-```
-
-<-->
-
-Java Streaming API
-
-```java
-// Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
-public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
-    return dailyBalances
-        .stream()
-        .collect(groupingBy(DailyBalance::getIban))
-        .values()
-        .stream()
-        .flatMap(balances -> balances.stream()
-                                     .max(comparing(DailyBalance::getDay))
-                                     .stream())
-        .map(DailyBalance::getTotal)
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-  }
-```
-
-<-->
-
 Java `for each` Kaskade
 ```java
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
@@ -242,6 +212,34 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
   }
   return acc;
 }
+```
+
+Java Streaming API
+
+```java
+// Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
+public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
+    return dailyBalances
+        .stream()
+        .collect(groupingBy(DailyBalance::getIban))
+        .values()
+        .stream()
+        .flatMap(balances -> balances.stream()
+                                     .max(comparing(DailyBalance::getDay))
+                                     .stream())
+        .map(DailyBalance::getTotal)
+        .reduce(BigDecimal.ZERO, BigDecimal::add);
+  }
+```
+
+<-->
+
+Berechnungen innerhalb statt Delegation an `Stream.collect`
+```kotlin
+// Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
+fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
+  .map { (_,value) -> value.maxBy { it.day } }
+  .sumOf { it.total }
 ```
 
 <-->
