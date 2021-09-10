@@ -241,17 +241,17 @@ Java Streaming API
 ```java
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
 public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
-    return dailyBalances
-        .stream()
-        .collect(groupingBy(DailyBalance::getIban))
-        .values()
-        .stream()
-        .flatMap(balances -> balances.stream()
-                                     .max(comparing(DailyBalance::getDay))
-                                     .stream())
-        .map(DailyBalance::getTotal)
-        .reduce(BigDecimal.ZERO, BigDecimal::add);
-  }
+  return dailyBalances
+      .stream()
+      .collect(groupingBy(DailyBalance::getIban))
+      .values()
+      .stream()
+      .flatMap(balances -> balances.stream()
+                                   .max(comparing(DailyBalance::getDay))
+                                   .stream())
+      .map(DailyBalance::getTotal)
+      .reduce(BigDecimal.ZERO, BigDecimal::add);
+}
 ```
 
 <-->
