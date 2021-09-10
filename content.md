@@ -5,6 +5,7 @@
 <i class="fa fa-user"></i>&nbsp;Valentin Petras
 
 <span class="small">https://schlammspringer.github.io/modern-springboot-with-kotlin</span>
+
 <--->
 
 ## <span class="words"><p class="words-line revert">motivation</p></span>
