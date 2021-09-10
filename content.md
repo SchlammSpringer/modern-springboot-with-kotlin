@@ -171,8 +171,13 @@ NOTE:
 API Design mit Immutability und expliziten Null Checks für Pflichtfelder 
 
 ```kotlin
-// does not compile!
-val account = Account(consultantNumber = 123, clientNumber = 456, name = null, iban = "DE12345678")
+val account = Account(
+  consultantNumber = 123, 
+  clientNumber = 456, 
+  // does not compile!
+  name = null, 
+  iban = "DE12345678",
+  )
 
 // id is nullable, does not compile!
 account.id.toString()
