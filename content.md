@@ -191,31 +191,15 @@ account.id?.toString() ?: "Not available"
 
 <-->
 
-Tagessalden aller Konten == aktueller Kontostand 1835.00
+Tagessalden aller Konten -> aktueller Kontostand 1835.00
 
 ```json
 {
   "dailyBalances": [
-    {
-      "iBAN": "DE12345678",
-      "day": "2021-05-03",
-      "total": "1234.12"
-    },
-    {
-      "iBAN": "DE12345678",
-      "day": "2021-05-02",
-      "total": "500.12"
-    },
-    {
-      "iBAN": "DE98765432",
-      "day": "2021-05-05",
-      "total": "600.88"
-    },
-    {
-      "iBAN": "DE98765432",
-      "day": "2021-05-01",
-      "total": "145.23"
-    }
+    { "iBAN": "DE123", "day": "2021-05-03", "total": "1234.12" },
+    { "iBAN": "DE123", "day": "2021-05-02", "total": "500.12" },
+    { "iBAN": "DE987", "day": "2021-05-05", "total": "600.88" },
+    { "iBAN": "DE987", "day": "2021-05-01", "total": "145.23" }
   ]
 }
 ```
