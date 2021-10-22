@@ -1,31 +1,20 @@
-name: website
-
+name: Deploy pages
 on: push
-
 jobs:
-  publish:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
-        name: Gen dummy page
-        run: |
-          mkdir public
-          cp index.html public
-          cp content.md public
-          cp -rv lib  public
-          cp -rv js  public
-          cp -rv plugin  public
-          cp -rv css  public
-          cp -rv resources  public
-      -
-        name: Deploy to GitHub Pages
-        if: success()
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      - name: Deploy pages
         uses: crazy-max/ghaction-github-pages@v2
         with:
-          target_branch: gh-pages
-          build_dir: public
+          build_dir: dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
