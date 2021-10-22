@@ -21,6 +21,8 @@ drawings:
 
 <carbon-link /> [schlammspringer.github.io/modern-springboot-with-kotlin]([https://schlammspringer.github.io/modern-springboot-with-kotlin])
 
+<v-card githubUrl="https://github.com/SchlammSpringer/modern-springboot-with-kotlin" />
+
 ---
 layout: banner
 main: Motivation
