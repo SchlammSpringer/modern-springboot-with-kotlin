@@ -1,0 +1,8 @@
+.badge {
+  position: relative;
+}
+
+.badge::before {
+  content: attr(data-language);
+  @apply absolute z-10 rounded-xl bg-dark-50 p-2 -top-1 right-0 border border-gray-500 text-light-500 font-bold;
+}
