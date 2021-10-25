@@ -2,7 +2,6 @@
 # try also 'default' to start simple
 theme: datev-scc
 class: 'text-center'
-highlighter: shiki
 lineNumbers: false
 info: |
   ## Slidev Starter Template
@@ -66,8 +65,6 @@ layout: quote
 
 # Laufzeitentkopplung
 
-<div class="badge" data-language="Kotlin">
-
 ```kotlin
 @PutMapping(...)
 suspend fun upload(@RequestBody uploaded: Flow<Item>) {
@@ -79,10 +76,6 @@ suspend fun upload(@RequestBody uploaded: Flow<Item>) {
   return "🤞"
 }
 ```
-
-</div>
-
-<div class="badge" data-language="Java" v-click>
 
 ```java
 @PutMapping(...)
@@ -99,13 +92,9 @@ public Mono<String> upload(@RequestBody Flux<Item> uploaded) {
 }
 ```
 
-</div>
-
 ---
 
 # Parallelisierung von Aufrufen
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 = coroutineScope {
@@ -120,10 +109,6 @@ public Mono<String> upload(@RequestBody Flux<Item> uploaded) {
 }
 ```
 
-</div>
-
-<div class="badge" data-language="Java" v-click>
-
 ```java
   // Functional Reactive Programming
   return readAccountsByApiFromDomainA(consultant, client)
@@ -137,8 +122,6 @@ public Mono<String> upload(@RequestBody Flux<Item> uploaded) {
         combineAccounts(accountsFromA, accountsFromB)
     );
 ```
-
-</div>
 
 ---
 layout: banner
@@ -161,8 +144,6 @@ class: fade
 
 ---
 
-<div class="badge" data-language="Kotlin">
-
 ```kotlin
 fun main() = runBlocking {
   repeat(100_000) { // launch a lot of coroutines
@@ -174,11 +155,7 @@ fun main() = runBlocking {
 }
 ```
 
-</div>
-
 ---
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 fun main() = runBlocking {
@@ -194,8 +171,6 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 }
 ```
 
-</div>
-
 ---
 layout: banner
 main: Data
@@ -205,8 +180,6 @@ sub: Classes
 ---
 
 # Weniger Boilerplate
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 data class Account(
@@ -218,13 +191,9 @@ data class Account(
 )
 ```
 
-</div>
-
 ---
 
 # Immutability vermeidet Race Conditions
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 val account = Account(...)
@@ -240,13 +209,9 @@ val changedAccount = account.copy(name = "New Name")
 `copy` ist der idiomatische Weg!
 -->
 
-</div>
-
 ---
 
 # API Design mit Immutability und expliziten Null Checks für Pflichtfelder 
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 val account = Account(
@@ -261,8 +226,6 @@ val account = Account(
 account.id.toString()
 account.id?.toString() ?: "Not available"
 ```
-
-</div>
 
 ---
 layout: banner
@@ -288,8 +251,6 @@ Tagessalden aller Konten -> aktueller Kontostand 1835.00
 ---
 
 # `for each` Kaskade
-
-<div class="badge" data-language="Java">
 
 ```java
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
@@ -318,13 +279,9 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 }
 ```
 
-</div>
-
 ---
 
 # Streaming API
-
-<div class="badge" data-language="Java">
 
 ```java
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
@@ -342,15 +299,11 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 }
 ```
 
-</div>
-
 ---
 
 # Berechnungen innerhalb 
 
 statt Delegation an `Stream.collect`
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
@@ -359,15 +312,11 @@ fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
   .sumOf { it.total }
 ```
 
-</div>
-
 ---
 
 # Sehr mächtige API Funktionen 
 
 statt Java `for each` Kaskade
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 // Relative Veränderung des Kontostands mit Startsaldo
@@ -386,8 +335,6 @@ fun List<BigDecimal>.convertDeltasToAbsolutes(totalStart: BigDecimal) =
   .map { it + totalStart } 
 ```
 
-</div>
-
 ---
 layout: banner
 main: kotlin
@@ -397,8 +344,6 @@ sub: language
 ---
 
 # Expression functions für weniger Boilerplate
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 // block body
@@ -411,8 +356,6 @@ fun helloWorld() = "Hello World"
 
 ```
 
-</div>
-
 <!--
 - weniger refactoring pain durch type inference bei Änderung von Rückgabewerten
 -->
@@ -421,18 +364,12 @@ fun helloWorld() = "Hello World"
 
 # Domain Language durch Extension functions
 
-<div class="badge" data-language="Kotlin">
-
 ```kotlin
 private fun BigDecimal.toEuroCent() = 
   multiply(BigDecimal(100)).toLong()
 
 val total = (value1 - value2).toEuroCent()
 ```
-
-</div>
-
-<div class="badge" data-language="Java" v-click>
 
 ```java
 private long toEuroCent(BigDecimal value) {
@@ -441,8 +378,6 @@ private long toEuroCent(BigDecimal value) {
 
 var total = toEuroCent(value1.subtract(value2));
 ```
-
-</div>
 
 <!--
 - Kotlin Listen Funktionen sind alles extension functions
@@ -457,8 +392,6 @@ sub: testing
 ---
 
 # BDD Strukturierung der Tests
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 describe("API for Payment Plan") {
@@ -475,8 +408,6 @@ describe("API for Payment Plan") {
   describe("has DELETE {id}") {...}
 }
 ```
-
-</div>
 
 ---
 
@@ -508,8 +439,6 @@ The following elements failed:
 
 ---
 
-<div class="badge" data-language="Kotlin">
-
 ```kotlin
 it("supports a pre-emptive end") {
   val endBeforeRangeEnd = arbDateAndRange.filter { (end, range) -> 
@@ -523,13 +452,9 @@ it("supports a pre-emptive end") {
 }
 ```
 
-</div>
-
 ---
 
 # Kotest Generatoren für Property Tests
-
-<div class="badge" data-language="Kotlin">
 
 ```kotlin
 it("functions are isomorphic") {
@@ -541,8 +466,6 @@ it("functions are isomorphic") {
   }
 }
 ```
-
-</div>
 
 ---
 layout: banner
