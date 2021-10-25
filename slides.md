@@ -67,10 +67,11 @@ layout: quote
 
 ```kotlin
 @PutMapping(...)
-suspend fun upload(@RequestBody uploaded: Flow<Item>) {
+suspend fun upload(@RequestBody uploaded: Flow<Item>): String {
+  val list = uploaded.toList()
   // this runs in background
   CoroutineScope(Dispatchers.IO).launch {
-    collector.collect(uploaded.toList())
+    collector.collect(list)
   }
   // immediately returned
   return "🤞"
