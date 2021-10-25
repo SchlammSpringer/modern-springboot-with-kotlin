@@ -77,6 +77,8 @@ suspend fun upload(@RequestBody uploaded: Flow<Item>) {
 }
 ```
 
+<v-click>
+
 ```java
 @PutMapping(...)
 public Mono<String> upload(@RequestBody Flux<Item> uploaded) {
@@ -91,6 +93,8 @@ public Mono<String> upload(@RequestBody Flux<Item> uploaded) {
   return Mono.just("🤞");
 }
 ```
+
+</v-click>
 
 ---
 
@@ -109,6 +113,8 @@ public Mono<String> upload(@RequestBody Flux<Item> uploaded) {
 }
 ```
 
+<v-click>
+
 ```java
   // Functional Reactive Programming
   return readAccountsByApiFromDomainA(consultant, client)
@@ -122,6 +128,8 @@ public Mono<String> upload(@RequestBody Flux<Item> uploaded) {
         combineAccounts(accountsFromA, accountsFromB)
     );
 ```
+
+</v-click>
 
 ---
 layout: banner
@@ -371,6 +379,8 @@ private fun BigDecimal.toEuroCent() =
 val total = (value1 - value2).toEuroCent()
 ```
 
+<v-click>
+
 ```java
 private long toEuroCent(BigDecimal value) {
   return value.multiply(new BigDecimal(100)).longValue();
@@ -378,6 +388,8 @@ private long toEuroCent(BigDecimal value) {
 
 var total = toEuroCent(value1.subtract(value2));
 ```
+
+</v-click>
 
 <!--
 - Kotlin Listen Funktionen sind alles extension functions
