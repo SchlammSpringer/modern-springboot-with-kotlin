@@ -50,7 +50,7 @@ layout: quote
 author: Spring Resttemplate Doc
 link: https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html
 ---
-As of 5.0 this class is in maintenance mode, ... . Please, consider using the org.springframework.web.reactive.client.WebClient which has a more modern API and supports sync, async, and streaming scenarios.
+As of 5.0 this class is in maintenance mode, [...]. Please, consider using the [...].reactive.client.WebClient which has a more modern API and supports sync, async, and streaming scenarios.
 
 ---
 layout: banner
