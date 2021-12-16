@@ -186,7 +186,41 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
     println("Hello")
 }
 ```
+---
+  
+```mermaid
+  stateDiagram-v2
+    direction LR
+    state if_state <<choice>>
+    [*] --> einkaufen
+    einkaufen --> if_state
+    if_state --> ERROR: alles weg
+    state schritt1 <<fork>>
+    if_state --> schritt1 : alle Zutaten gefunden
+    schritt1 --> Butter: Honig mit Butter schmelzen
+    schritt1 --> Teig: Teig vorbereiten
+    schritt1 --> Ofen: Ofen vorheitzen
 
+    state join_schritt1 <<join>>
+    Butter --> join_schritt1
+    Teig --> join_schritt1
+    join_schritt1 --> TeigButter: Butter in Teig rühren
+    join_schritt1 --> Blech: Blech einbuttern
+
+    state join_all <<join>>
+    TeigButter --> join_all
+    Blech --> join_all
+    Ofen --> join_all
+    join_all --> Backvorgang
+    join_all --> Glasur: evtl. Glasur vorbereiten
+
+    state join_end <<join>>
+    Backvorgang --> join_end
+    Glasur --> join_end
+    join_end --> Honigkuchen
+```
+
+  
 ---
 layout: banner
 main: Data
