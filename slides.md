@@ -188,7 +188,7 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 ```
 ---
   
-```mermaid
+```mermaid {theme: 'neutral', scale: 1.5}
  stateDiagram-v2
     direction LR
     state if_state <<choice>>
