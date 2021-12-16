@@ -189,12 +189,13 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 ---
   
 ```mermaid
-  stateDiagram-v2
+ stateDiagram-v2
     direction LR
     state if_state <<choice>>
     [*] --> einkaufen
     einkaufen --> if_state
-    if_state --> ERROR: alles weg
+    if_state --> FAIL: alles weg
+    FAIL --> [*]
     state schritt1 <<fork>>
     if_state --> schritt1 : alle Zutaten gefunden
     schritt1 --> Butter: Honig mit Butter schmelzen
@@ -204,11 +205,11 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
     state join_schritt1 <<join>>
     Butter --> join_schritt1
     Teig --> join_schritt1
-    join_schritt1 --> TeigButter: Butter in Teig rühren
+    join_schritt1 --> ButterTeig: Butter in Teig rühren
     join_schritt1 --> Blech: Blech einbuttern
 
     state join_all <<join>>
-    TeigButter --> join_all
+    ButterTeig --> join_all
     Blech --> join_all
     Ofen --> join_all
     join_all --> Backvorgang
@@ -218,9 +219,9 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
     Backvorgang --> join_end
     Glasur --> join_end
     join_end --> Honigkuchen
+    Honigkuchen --> [*]
 ```
 
-  
 ---
 layout: banner
 main: Data
