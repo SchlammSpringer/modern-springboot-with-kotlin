@@ -221,6 +221,25 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
     join_end --> Honigkuchen
     Honigkuchen --> [*]
 ```
+---
+  
+```kotlin
+   fun prepareGingerbread(vorhandeneZutaten: Zutaten) = mono {
+    val zutaten = einkaufen(vorhandeneZutaten)
+
+    val ofen = async { ofenVorheizen() }
+    val schmelze = async { honigMitButterSchmelzen(zutaten.honig, zutaten.butter) }
+    val teig = async { teigVorbereiten(zutaten.mehl) }
+
+    val butterTeig = async { schmelzeInTeigRuehren(schmelze.await(), teig.await()) }
+    val blech = async { blechEinbuttern(zutaten.butter) }
+
+    val kuchen = async { backvorgang(ofen.await(), butterTeig.await(), blech.await()) }
+    val glasur = async { glasurVorbereiten(zutaten.zucker) }
+
+    Honigkuchen(kuchen.await(), glasur.await())
+  }
+```
 
 ---
 layout: banner
