@@ -200,12 +200,12 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
     if_state --> schritt1 : alle Zutaten gefunden
     schritt1 --> Butter: Honig mit Butter schmelzen
     schritt1 --> Teig: Teig vorbereiten
-    schritt1 --> Ofen: Ofen vorheitzen
+    schritt1 --> Ofen: Ofen vorheizen
 
     state join_schritt1 <<join>>
     Butter --> join_schritt1
     Teig --> join_schritt1
-    join_schritt1 --> ButterTeig: Butter in Teig rühren
+    join_schritt1 --> ButterTeig: Schmelze in Teig rühren
     join_schritt1 --> Blech: Blech einbuttern
 
     state join_all <<join>>
