@@ -224,7 +224,7 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 ---
   
 ```kotlin
-   fun prepareGingerbread(vorhandeneZutaten: Zutaten) = mono {
+   fun backeHonigkuchen(vorhandeneZutaten: Zutaten) = mono {
     val zutaten = einkaufen(vorhandeneZutaten)
 
     val ofen = async { ofenVorheizen() }
