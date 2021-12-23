@@ -187,15 +187,16 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 }
 ```
 ---
+layout: banner
+main: Framework
+sub: vs. Domain
+---
+# Trennung Framework- / Business-code 
+---
 
-# Trennung von Business und Framework
-  
-```mermaid {
-  "theme": "dark",
-  "themeVariables": { 
-      "fontSize": "2.5em"
-    }
-}
+# In der Weihnachtsbäckerei
+
+```mermaid {'theme': 'dark','scale': 0.3,'themeVariables': { 'fontSize': '30px'}}
  stateDiagram-v2
     direction LR
     state if_state <<choice>>
@@ -210,7 +211,7 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
     schritt1 --> Ofen: Ofen vorheizen
 
     state join_schritt1 <<join>>
-    Butter --> join_schritt1
+    Schmelze --> join_schritt1
     Teig --> join_schritt1
     join_schritt1 --> ButterTeig: Schmelze in Teig rühren
     join_schritt1 --> Blech: Blech einbuttern
@@ -230,8 +231,9 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 ```
 ---
   
-```kotlin
-   fun backeHonigkuchen(vorhandeneZutaten: Zutaten) = mono {
+```kotlin {all|1,2,16|3-15}
+fun backeHonigkuchen(vorhandeneZutaten: Zutaten) = 
+  mono {
     val zutaten = einkaufen(vorhandeneZutaten)
 
     val ofen = async { ofenVorheizen() }
@@ -249,26 +251,31 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 ```
 ---
 
-```java
+```java {all|1,3,4,9,11-14,15-18,19,21,23|2,5-8,10,20,22,24}
 public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
-    return einkaufen(vorhandeneZutaten)
-            .zipWhen(zutaten ->
-                    honigMitButterSchmelzen(zutaten.getHonig(), zutaten.getButter())
-                            .zipWith(ofenVorheizen())
-                            .zipWith(teigVorbereiten(zutaten.getMehl()))
-                            .zipWhen(schmelzeTeigTuple ->
-                                    schmelzeInTeigRuehren(
-                                      schmelzeTeigTuple.getT1().getT1(), 
-                                      schmelzeTeigTuple.getT2()))
-                            .zipWith(blechEinbuttern(zutaten.getMehl()))
-            )
-            .zipWhen(vorbereitungenTuple ->
-                    backen(vorbereitungenTuple.getT2().getT1().getT1().getT1().getT2(),
-                            vorbereitungenTuple.getT2().getT1().getT2(),
-                            vorbereitungenTuple.getT2().getT2()
-                    ).zipWith(glasurVorbereiten(vorbereitungenTuple.getT1().getZucker())))
-            .map(kuchenGlasurTuple ->
-                    new Honigkuchen(kuchenGlasurTuple.getT2().getT1(), kuchenGlasurTuple.getT2().getT2()));
+  return einkaufen(vorhandeneZutaten)
+      .zipWhen(
+          zutaten -> zip(
+              ofenVorheizen(),
+              honigMitButterSchmelzen(zutaten.getHonig(), zutaten.getButter()),
+              teigVorbereiten(zutaten.getMehl()),
+              blechEinbuttern(zutaten.getMehl())
+          ).zipWhen(
+              ofenSchmelzeTeigBlech -> schmelzeInTeigRuehren(ofenSchmelzeTeigBlech.getT2(), ofenSchmelzeTeigBlech.getT3()),
+              (ofenSchmelzeTeigBlech, butterTeig) -> {
+                final var it = ofenSchmelzeTeigBlech;
+                return of(it.getT1(), it.getT2(), it.getT3(), it.getT4(), butterTeig);
+              }),
+          (zutaten, ofenSchmelzeTeigBlechButterTeig) -> {
+            final var it = ofenSchmelzeTeigBlechButterTeig;
+            return of(zutaten, it.getT1(), it.getT2(), it.getT3(), it.getT4(), it.getT5());
+          }
+      ).zipWhen(
+          vorbereitungen -> backen(vorbereitungen.getT2(), vorbereitungen.getT6(), vorbereitungen.getT5())
+              .zipWith(
+                  glasurVorbereiten(vorbereitungen.getT1().getZucker())),
+          (vorbereitungen, kuchenGlasur) -> 
+            new Honigkuchen(kuchenGlasur.getT1(), kuchenGlasur.getT2()));
 }
 ```
 
@@ -336,7 +343,7 @@ sub: functions
 
 ---
 
-```json
+```json {all|3,5}
 {
   "dailyBalances": [
     { "iBAN": "DE123", "day": "2021-05-03", "total": "1234.12" },
@@ -384,7 +391,7 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 
 # Streaming API
 
-```java
+```java {all|4,7,9,11}
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
 public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
   return dailyBalances
@@ -392,7 +399,8 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
       .collect(groupingBy(DailyBalance::getIban))
       .values()
       .stream()
-      .flatMap(balances -> balances.stream()
+      .flatMap(balances -> balances
+                                   .stream()
                                    .max(comparing(DailyBalance::getDay))
                                    .stream())
       .map(DailyBalance::getTotal)
