@@ -190,7 +190,12 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 
 # Trennung von Business und Framework
   
-```mermaid
+```mermaid {
+  "theme": "dark",
+  "themeVariables": { 
+      "fontSize": "2.5em"
+    }
+}
  stateDiagram-v2
     direction LR
     state if_state <<choice>>
