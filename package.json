@@ -6,13 +6,13 @@
     "export": "slidev export"
   },
   "dependencies": {
-    "@slidev/cli": "^0.27.9",
-    "@slidev/theme-default": "*",
-    "@slidev/theme-seriph": "*",
+    "@slidev/cli": "^0.27.20",
+    "@slidev/theme-default": "^0.21.1",
+    "@slidev/theme-seriph": "^0.21.1",
     "slidev-theme-datev-scc": "^0.3.5"
   },
   "name": "modern-springboot-with-kotlin",
   "devDependencies": {
-    "playwright-chromium": "^1.16.0"
+    "playwright-chromium": "^1.17.1"
   }
 }
