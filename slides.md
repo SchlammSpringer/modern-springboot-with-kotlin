@@ -247,19 +247,20 @@ public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
     return einkaufen(vorhandeneZutaten)
             .zipWhen(zutaten ->
                     honigMitButterSchmelzen(zutaten.getHonig(), zutaten.getButter())
+                            .zipWith(ofenVorheizen())
                             .zipWith(teigVorbereiten(zutaten.getMehl()))
                             .zipWhen(schmelzeTeigTuple ->
-                                    schmelzeInTeigRuehren(schmelzeTeigTuple.getT1(), schmelzeTeigTuple.getT2()))
+                                    schmelzeInTeigRuehren(schmelzeTeigTuple.getT1().getT1(), schmelzeTeigTuple.getT2()))
                             .zipWith(blechEinbuttern(zutaten.getMehl()))
-                            .zipWith(ofenVorheizen()))
+            )
             .zipWhen(vorbereitungenTuple ->
-                    backen(vorbereitungenTuple.getT2().getT2(),
-                            vorbereitungenTuple.getT2().getT1().getT1().getT2(),
-                            vorbereitungenTuple.getT2().getT1().getT2()
+                    backen(vorbereitungenTuple.getT2().getT1().getT1().getT1().getT2(),
+                            vorbereitungenTuple.getT2().getT1().getT2(),
+                            vorbereitungenTuple.getT2().getT2()
                     ).zipWith(glasurVorbereiten(vorbereitungenTuple.getT1().getZucker())))
             .map(kuchenGlasurTuple ->
                     new Honigkuchen(kuchenGlasurTuple.getT2().getT1(), kuchenGlasurTuple.getT2().getT2()));
- }
+}
 ```
 
 ---
