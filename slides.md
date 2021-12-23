@@ -198,7 +198,7 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
     FAIL --> [*]
     state schritt1 <<fork>>
     if_state --> schritt1 : alle Zutaten gefunden
-    schritt1 --> Butter: Honig mit Butter schmelzen
+    schritt1 --> Schmelze: Honig mit Butter schmelzen
     schritt1 --> Teig: Teig vorbereiten
     schritt1 --> Ofen: Ofen vorheizen
 
