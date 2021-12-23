@@ -187,6 +187,8 @@ suspend fun doWorld() = coroutineScope {  // this: CoroutineScope
 }
 ```
 ---
+
+# Trennung von Business und Framework
   
 ```mermaid
  stateDiagram-v2
@@ -250,7 +252,9 @@ public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
                             .zipWith(ofenVorheizen())
                             .zipWith(teigVorbereiten(zutaten.getMehl()))
                             .zipWhen(schmelzeTeigTuple ->
-                                    schmelzeInTeigRuehren(schmelzeTeigTuple.getT1().getT1(), schmelzeTeigTuple.getT2()))
+                                    schmelzeInTeigRuehren(
+                                      schmelzeTeigTuple.getT1().getT1(), 
+                                      schmelzeTeigTuple.getT2()))
                             .zipWith(blechEinbuttern(zutaten.getMehl()))
             )
             .zipWhen(vorbereitungenTuple ->
