@@ -257,7 +257,7 @@ fun backeHonigkuchen(vorhandeneZutaten: Zutaten) =
 
 ## Business und Framework Code stark verwoben
 
-```java {all|1,3,4,9-10,12-18,19-21,23,25|2,5-8,11,21,22,24}
+```java {all|1,3,4,9-10,12-18,19-20,23,25|2,5-8,11,21-22,24}
 public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
   return einkaufen(vorhandeneZutaten)
       .zipWhen(
