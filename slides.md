@@ -260,7 +260,7 @@ fun backeHonigkuchen(vorhandeneZutaten: Zutaten) =
 ```java {all|1,3,4,9,12-14,15-18,19,20,21|2,5-8,10-11,22-24}
 public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
   return einkaufen(vorhandeneZutaten)
-      .zipWhen(
+      .zipWhen( //because of simplicity, publishOn methods for more controlled parallel execution not used
           zutaten -> zip(
               honigMitButterSchmelzen(zutaten.getHonig(), zutaten.getButter()),
               teigVorbereiten(zutaten.getMehl()),
