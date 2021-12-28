@@ -290,10 +290,10 @@ layout: banner
 main: Data
 sub: Classes
 ---
-
+# Data Classses
 ---
 
-# Weniger Boilerplate
+## Weniger Boilerplate
 
 ```kotlin
 data class Account(
@@ -307,7 +307,7 @@ data class Account(
 
 ---
 
-# Immutability vermeidet Race Conditions
+## Immutability vermeidet Race Conditions
 
 ```kotlin
 val account = Account(...)
@@ -325,7 +325,7 @@ val changedAccount = account.copy(name = "New Name")
 
 ---
 
-# API Design mit Immutability und expliziten Null Checks für Pflichtfelder 
+## API Design mit Immutability und expliziten Null Checks für Pflichtfelder 
 
 ```kotlin
 val account = Account(
@@ -346,7 +346,7 @@ layout: banner
 main: list
 sub: functions
 ---
-
+# Arbeiten mit Listen
 ---
 
 ```json {all|3,5}
@@ -364,7 +364,7 @@ Tagessalden aller Konten -> aktueller Kontostand 1835.00
 
 ---
 
-# `for each` Kaskade
+## `for each` Kaskade
 
 ```java
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
@@ -395,7 +395,7 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 
 ---
 
-# Streaming API
+## STREAMing API
 
 ```java {all|4,7,9,11}
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
@@ -416,20 +416,20 @@ public BigDecimal sumLatestTotalsByIban(List<DailyBalance> dailyBalances) {
 
 ---
 
-# Berechnungen innerhalb 
+## Berechnungen innerhalb 
 
-statt Delegation an `Stream.collect`
+statt Delegation an `Stream.collect` und `Stream.reduce`
 
 ```kotlin
 // Ermittlung Gesamtbetrag aller Konten auf Basis der Tagessalden
 fun List<DailyBalance>.sumLatestTotalsByIban() = groupBy { it.iban }
-  .map { (_,value) -> value.maxBy { it.day } }
-  .sumOf { it.total }
+    .map { it.value.maxByOrNull { it.day } }
+    .sumOf { it!!.total }
 ```
 
 ---
 
-# Sehr mächtige API Funktionen 
+## Sehr mächtige API Funktionen 
 
 statt Java `for each` Kaskade
 
