@@ -237,7 +237,7 @@ sub: vs. Domain
 ```kotlin {all|1,2,17|4-16}
 fun backeHonigkuchen(vorhandeneZutaten: Zutaten) = 
   mono {
-    // Businesscode wiederverwendbar und portierbar auf android, quarkus, liberty, aws lamba, node.js, usw.
+    // Businesscode wiederverwendbar und portierbar auf android, quarkus, liberty, aws lambda, node.js, usw.
     val zutaten = einkaufen(vorhandeneZutaten)
 
     val butterschmelze = async { honigMitButterSchmelzen(zutaten.honig, zutaten.butter) }
@@ -257,7 +257,7 @@ fun backeHonigkuchen(vorhandeneZutaten: Zutaten) =
 
 ## Business und Framework Code stark verwoben
 
-```java {all|1,3,4,9-10,12-18,19-20,23,25|2,5-8,11,21-22,24}
+```java {all|1,3-4,9-10,12-18,21,23|2,5-8,11,19-20,22}
 public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
   return einkaufen(vorhandeneZutaten)
       .zipWhen(
@@ -269,19 +269,17 @@ public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
           ).zipWhen(
               schmelzeTeigBlechOfen -> 
                   schmelzeInTeigRuehren(schmelzeTeigBlechOfen.getT1(), schmelzeTeigBlechOfen.getT2()),
-              (schmelzeTeigBlechOfen, butterTeig) -> { //Tuple of Tuple deconstruction via BiFunction
-                return of(butterTeig, schmelzeTeigBlechOfen.getT3(), schmelzeTeigBlechOfen.getT4());
-              }),
-          (zutaten, butterTeigBlechOfen) -> { //Tuple of Tuple deconstruction via BiFunction
-            return of(
-                zutaten, butterTeigBlechOfen.getT1(), butterTeigBlechOfen.getT2(), butterTeigBlechOfen.getT3());
-          }
+              (schmelzeTeigBlechOfen, butterTeig) ->  //Tuple of Tuple deconstruction via BiFunction
+                  of(butterTeig, schmelzeTeigBlechOfen.getT3(), schmelzeTeigBlechOfen.getT4())
+          ),
+          (zutaten, butterTeigBlechOfen) ->  //Tuple of Tuple deconstruction via BiFunction
+              of(zutaten, butterTeigBlechOfen.getT1(), butterTeigBlechOfen.getT2(), butterTeigBlechOfen.getT3())
       ).zipWhen(
-            vorbereitungen -> zip(
-                glasurVorbereiten(vorbereitungen.getT1().getZucker()),
-                backen(vorbereitungen.getT2(), vorbereitungen.getT3(), vorbereitungen.getT4())),
-            (vorbereitungen, kuchenGlasur) -> 
-                new Honigkuchen(kuchenGlasur.getT1(), kuchenGlasur.getT2()));
+          vorbereitungen -> zip(
+              glasurVorbereiten(vorbereitungen.getT1().getZucker()),
+              backen(vorbereitungen.getT2(), vorbereitungen.getT3(), vorbereitungen.getT4())),
+          (vorbereitungen, kuchenGlasur) -> 
+              new Honigkuchen(kuchenGlasur.getT1(), kuchenGlasur.getT2()));
 }
 ```
 
