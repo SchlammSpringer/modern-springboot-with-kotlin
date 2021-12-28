@@ -240,12 +240,12 @@ fun backeHonigkuchen(vorhandeneZutaten: Zutaten) =
     // Businesscode wiederverwendbar und portierbar auf android, quarkus, liberty, aws lamba, node.js, usw.
     val zutaten = einkaufen(vorhandeneZutaten)
 
-    val ofen = async { ofenVorheizen() }
     val schmelze = async { honigMitButterSchmelzen(zutaten.honig, zutaten.butter) }
     val teig = async { teigVorbereiten(zutaten.mehl) }
+    val blech = async { blechEinbuttern(zutaten.butter) }
+    val ofen = async { ofenVorheizen() }
 
     val butterTeig = async { schmelzeInTeigRuehren(schmelze.await(), teig.await()) }
-    val blech = async { blechEinbuttern(zutaten.butter) }
 
     val kuchen = async { backvorgang(ofen.await(), butterTeig.await(), blech.await()) }
     val glasur = async { glasurVorbereiten(zutaten.zucker) }
@@ -257,31 +257,31 @@ fun backeHonigkuchen(vorhandeneZutaten: Zutaten) =
 
 ## Business und Framework Code stark verwoben
 
-```java {all|1,3,4,9,12-14,15-18,19,20,22|2,5-8,10-11,21,23,24}
+```java {all|1,3,4,9,12-14,15-18,19,20,21|2,5-8,10-11,22-24}
 public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
-    return einkaufen(vorhandeneZutaten)
-        .zipWhen(
-            zutaten -> zip(
-                ofenVorheizen(),
-                honigMitButterSchmelzen(zutaten.getHonig(), zutaten.getButter()),
-                teigVorbereiten(zutaten.getMehl()),
-                blechEinbuttern(zutaten.getMehl())
-            ).zipWhen(
-                ofenSchmelzeTeigBlech -> schmelzeInTeigRuehren(
-                    ofenSchmelzeTeigBlech.getT2(), ofenSchmelzeTeigBlech.getT3()),
-                (ofenSchmelzeTeigBlech, butterTeig) -> { //Tuple of Tuple deconstruction via BiFunction
-                  final var it = ofenSchmelzeTeigBlech;
-                  return of(it.getT1(), it.getT2(), it.getT3(), it.getT4(), butterTeig);
-                }),
-            (zutaten, ofenSchmelzeTeigBlechButterTeig) -> { //Tuple of Tuple deconstruction via BiFunction
-              final var it = ofenSchmelzeTeigBlechButterTeig;
-              return of(zutaten, it.getT1(), it.getT2(), it.getT3(), it.getT4(), it.getT5());
-            }
-        ).zipWhen(
-            vorbereitungen -> backen(vorbereitungen.getT2(), vorbereitungen.getT6(), vorbereitungen.getT5())
-                .zipWith(
-                    glasurVorbereiten(vorbereitungen.getT1().getZucker())),
-            (vorbereitungen, kuchenGlasur) -> new Honigkuchen(kuchenGlasur.getT1(), kuchenGlasur.getT2()));
+  return einkaufen(vorhandeneZutaten)
+      .zipWhen(
+          zutaten -> zip(
+              honigMitButterSchmelzen(zutaten.getHonig(), zutaten.getButter()),
+              teigVorbereiten(zutaten.getMehl()),
+              blechEinbuttern(zutaten.getMehl()),
+              ofenVorheizen()
+          ).zipWhen(
+              ofenSchmelzeTeigBlech -> schmelzeInTeigRuehren(
+                  ofenSchmelzeTeigBlech.getT2(), ofenSchmelzeTeigBlech.getT3()),
+              (ofenSchmelzeTeigBlech, butterTeig) -> { //Tuple of Tuple deconstruction via BiFunction
+                final var it = ofenSchmelzeTeigBlech;
+                return of(it.getT1(), it.getT2(), it.getT3(), it.getT4(), butterTeig);
+              }),
+          (zutaten, ofenSchmelzeTeigBlechButterTeig) -> { //Tuple of Tuple deconstruction via BiFunction
+            final var it = ofenSchmelzeTeigBlechButterTeig;
+            return of(zutaten, it.getT1(), it.getT2(), it.getT3(), it.getT4(), it.getT5());
+          }
+      ).zipWhen(
+          vorbereitungen -> zip(
+              backen(vorbereitungen.getT2(), vorbereitungen.getT6(), vorbereitungen.getT5()),
+              glasurVorbereiten(vorbereitungen.getT1().getZucker())),
+          (vorbereitungen, kuchenGlasur) -> new Honigkuchen(kuchenGlasur.getT1(), kuchenGlasur.getT2()));
 }
 ```
 
