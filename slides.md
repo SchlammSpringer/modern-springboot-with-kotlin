@@ -220,11 +220,11 @@ sub: vs. Domain
     ButterTeig --> join_all
     Blech --> join_all
     Ofen --> join_all
-    join_all --> Backvorgang
+    join_all --> Kuchen
     join_all --> Glasur
 
     state join_end <<join>>
-    Backvorgang --> join_end
+    Kuchen --> join_end
     Glasur --> join_end
     join_end --> Honigkuchen
     Honigkuchen --> [*]
@@ -240,14 +240,14 @@ fun backeHonigkuchen(vorhandeneZutaten: Zutaten) =
     // Businesscode wiederverwendbar und portierbar auf android, quarkus, liberty, aws lamba, node.js, usw.
     val zutaten = einkaufen(vorhandeneZutaten)
 
-    val schmelze = async { honigMitButterSchmelzen(zutaten.honig, zutaten.butter) }
+    val butterschmelze = async { honigMitButterSchmelzen(zutaten.honig, zutaten.butter) }
     val teig = async { teigVorbereiten(zutaten.mehl) }
     val blech = async { blechEinbuttern(zutaten.butter) }
     val ofen = async { ofenVorheizen() }
 
-    val butterTeig = async { schmelzeInTeigRuehren(schmelze.await(), teig.await()) }
+    val butterTeig = async { schmelzeInTeigRuehren(butterschmelze.await(), teig.await()) }
 
-    val kuchen = async { backvorgang(ofen.await(), butterTeig.await(), blech.await()) }
+    val kuchen = async { backen(ofen.await(), butterTeig.await(), blech.await()) }
     val glasur = async { glasurVorbereiten(zutaten.zucker) }
 
     Honigkuchen(kuchen.await(), glasur.await())
