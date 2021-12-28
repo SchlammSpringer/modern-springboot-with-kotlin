@@ -196,32 +196,32 @@ sub: vs. Domain
 
 ## In der Weihnachtsbäckerei
 
-```mermaid {'theme': 'dark','scale': 0.3,'themeVariables': { 'fontSize': '30px'}}
+```mermaid {'theme': 'dark','themeVariables': { 'fontSize': '25px'}}
  stateDiagram-v2
     direction LR
     state if_state <<choice>>
-    [*] --> einkaufen
-    einkaufen --> if_state
-    if_state --> FAIL: alles weg
+    [*] --> Einkauf
+    Einkauf --> if_state
+    if_state --> FAIL
     FAIL --> [*]
     state schritt1 <<fork>>
-    if_state --> schritt1 : alle Zutaten gefunden
-    schritt1 --> Schmelze: Honig mit Butter schmelzen
-    schritt1 --> Teig: Teig vorbereiten
-    schritt1 --> Ofen: Ofen vorheizen
+    if_state --> schritt1
+    schritt1 --> Butterschmelze
+    schritt1 --> Teig
+    schritt1 --> Ofen
+    schritt1 --> Blech
 
     state join_schritt1 <<join>>
-    Schmelze --> join_schritt1
+    Butterschmelze --> join_schritt1
     Teig --> join_schritt1
-    join_schritt1 --> ButterTeig: Schmelze in Teig rühren
-    join_schritt1 --> Blech: Blech einbuttern
+    join_schritt1 --> ButterTeig
 
     state join_all <<join>>
     ButterTeig --> join_all
     Blech --> join_all
     Ofen --> join_all
     join_all --> Backvorgang
-    join_all --> Glasur: evtl. Glasur vorbereiten
+    join_all --> Glasur
 
     state join_end <<join>>
     Backvorgang --> join_end
