@@ -257,7 +257,7 @@ fun backeHonigkuchen(vorhandeneZutaten: Zutaten) =
 
 ## Business und Framework Code stark verwoben
 
-```java {all|1,3,4,9,12-14,15-18,19,20,25|2,5-8,10-11,21-23}
+```java {all|1,3,4,9-10,12-18,19-21,23,25|2,5-8,11,21,22,24}
 public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
   return einkaufen(vorhandeneZutaten)
       .zipWhen(
@@ -267,8 +267,8 @@ public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
               blechEinbuttern(zutaten.getMehl()),
               ofenVorheizen()
           ).zipWhen(
-              schmelzeTeigBlechOfen -> schmelzeInTeigRuehren(
-                  schmelzeTeigBlechOfen.getT1(), schmelzeTeigBlechOfen.getT2()),
+              schmelzeTeigBlechOfen -> 
+                  schmelzeInTeigRuehren(schmelzeTeigBlechOfen.getT1(), schmelzeTeigBlechOfen.getT2()),
               (schmelzeTeigBlechOfen, butterTeig) -> { //Tuple of Tuple deconstruction via BiFunction
                 return of(butterTeig, schmelzeTeigBlechOfen.getT3(), schmelzeTeigBlechOfen.getT4());
               }),
@@ -280,8 +280,8 @@ public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
             vorbereitungen -> zip(
                 glasurVorbereiten(vorbereitungen.getT1().getZucker()),
                 backen(vorbereitungen.getT2(), vorbereitungen.getT3(), vorbereitungen.getT4())),
-            (vorbereitungen, kuchenGlasur) -> new Honigkuchen(kuchenGlasur.getT1(), kuchenGlasur.getT2())
-        );
+            (vorbereitungen, kuchenGlasur) -> 
+                new Honigkuchen(kuchenGlasur.getT1(), kuchenGlasur.getT2()));
 }
 ```
 
