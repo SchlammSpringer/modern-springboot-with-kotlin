@@ -269,11 +269,11 @@ public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
             ).zipWhen(
                 ofenSchmelzeTeigBlech -> schmelzeInTeigRuehren(
                     ofenSchmelzeTeigBlech.getT2(), ofenSchmelzeTeigBlech.getT3()),
-                (ofenSchmelzeTeigBlech, butterTeig) -> {
+                (ofenSchmelzeTeigBlech, butterTeig) -> { //Tuple of Tuple deconstruction via BiFunction
                   final var it = ofenSchmelzeTeigBlech;
                   return of(it.getT1(), it.getT2(), it.getT3(), it.getT4(), butterTeig);
                 }),
-            (zutaten, ofenSchmelzeTeigBlechButterTeig) -> {
+            (zutaten, ofenSchmelzeTeigBlechButterTeig) -> { //Tuple of Tuple deconstruction via BiFunction
               final var it = ofenSchmelzeTeigBlechButterTeig;
               return of(zutaten, it.getT1(), it.getT2(), it.getT3(), it.getT4(), it.getT5());
             }
