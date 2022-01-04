@@ -264,7 +264,7 @@ public Mono<Honigkuchen> backeHonigkuchen(Zutaten vorhandeneZutaten) {
           zutaten -> zip(
               honigMitButterSchmelzen(zutaten.getHonig(), zutaten.getButter()),
               teigVorbereiten(zutaten.getMehl()),
-              blechEinbuttern(zutaten.getMehl()),
+              blechEinbuttern(zutaten.getButter()),
               ofenVorheizen()
           ).zipWhen(
               schmelzeTeigBlechOfen -> 
